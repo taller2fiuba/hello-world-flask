@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/taller2fiuba/hello-world-flask.svg?branch=master)](https://travis-ci.com/taller2fiuba/hello-world-flask)
 # Hello world en Flask
 
 ## Dependencias:
