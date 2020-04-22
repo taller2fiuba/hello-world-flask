@@ -23,7 +23,10 @@ install:
     - pip install -r requirements.txt
     - cd behave-test && sudo pip install -r requirements.txt
 before_script:
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then ../bin/start-test-server; fi' # levantar la aplicacion
+    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
+    chmod +x ../bin/start-test-server
+    ../bin/start-test-server;
+    fi' # levantar la aplicacion
 script:
     - echo "todo ok"
 after_script:
