@@ -1,0 +1,2 @@
+#!/bin/sh
+docker-compose -d $(dirname "$0")/../docker-compose.dev.yml up
