@@ -1,11 +1,25 @@
-FROM tiangolo/uwsgi-nginx-flask:python3.7
+#Grab the latest alpine image
+FROM alpine:latest
 
-ENV STATIC_URL /static
-ENV STATIC_PATH /app/static
+# Install python and pip
+RUN apk add --no-cache --update python3 py3-pip bash
+ADD ./webapp/requirements.txt /tmp/requirements.txt
 
-COPY . /app
-COPY ./preentry.sh /preentry.sh
+# Install dependencies
+RUN pip3 install --no-cache-dir -q -r /tmp/requirements.txt
 
-RUN id -u nginx &>/dev/null || useradd -ms /bin/bash nginx
+# Add our code
+ADD ./webapp /opt/webapp/
+WORKDIR /opt/webapp
 
-ENTRYPOINT /preentry.sh /entrypoint.sh /start.sh
+# Expose is NOT supported by Heroku
+# EXPOSE 5000 		
+
+# Run the image as a non-root user
+RUN adduser -D myuser
+USER myuser
+
+# Run the app.  CMD is required to run on Heroku
+# $PORT is set by Heroku			
+CMD gunicorn --bind 0.0.0.0:$PORT wsgi 
+

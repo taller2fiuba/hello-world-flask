@@ -20,7 +20,7 @@ before_install:
     - sudo pip install --upgrade pip
 install:
     # install deps
-    - pip install -r requirements.txt
+    - pip install -r webapp/requirements.txt
     - cd behave-test && sudo pip install -r requirements.txt
 before_script:
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
