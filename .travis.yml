@@ -16,15 +16,17 @@ before_install:
     - wget -qO- https://toolbelt.heroku.com/install.sh | sh
     # login to heroku registries
     - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
-    - git clone https://github.com/FrancoLiberali/behave-test.git
+    - cd ..
+    - echo "$PWD"
+    - ls
+    - git clone https://github.com/taller2fiuba/hello-world-acceptance-tests.git
     - sudo pip install --upgrade pip
 install:
     # install deps
     - pip install -r webapp/requirements.txt
-    - cd behave-test && sudo pip install -r requirements.txt
+    - cd hello-world-acceptance-tests && sudo pip install -r requirements.txt
 before_script:
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    chmod +x ../bin/start-test-server
     ../bin/start-test-server;
     fi' # levantar la aplicacion
 script:
