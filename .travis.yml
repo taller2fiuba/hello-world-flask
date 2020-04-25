@@ -25,10 +25,12 @@ install:
     - cd hello-world-acceptance-tests && sudo pip install -r requirements.txt
     - cd ../hello-world-flask && pip install -r app/requirements.txt
 before_script:
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    ./bin/start-test-server;
-    ../hello-world-node/bin/start-test-server;
-    fi' # levantar las aplicaciones
+    # - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
+    # ./bin/start-test-server;
+    # ../hello-world-node/bin/start-test-server;
+    # fi' # levantar las aplicaciones
+    - ./bin/start-test-server
+    - ../hello-world-node/binstart-test-server
 script:
     - nose2 -v
     # - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
@@ -38,10 +40,12 @@ script:
     - cd ../hello-world-acceptance-tests
     - behave
 after_script:
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    ../hello-world-flask/bin/stop-server;
-    ../hello-world-node/bin/stop-server;
-    fi'
+    # - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
+    # ../hello-world-flask/bin/stop-server;
+    # ../hello-world-node/bin/stop-server;
+    # fi'
+    - ../hello-world-flask/bin/stop-server
+    - ../hello-world-node/bin/stop-server
 after_success:
     - 'if [ "$TRAVIS_BRANCH" = "master" ]; then
     cd ../hello-world-flask;
