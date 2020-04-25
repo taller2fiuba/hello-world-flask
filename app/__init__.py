@@ -8,7 +8,7 @@ api = Api(app)
 class HelloWorld(Resource):
     def get(self):
         # TODO poner en variable de entorno
-        title = requests.get('https://hello-world-node-taller2.herokuapp.com/').json['title']
+        title = requests.get('https://hello-world-node-taller2.herokuapp.com/').json()['title']
         return {'title': f'({title}) by Flask'}
 
 api.add_resource(HelloWorld, '/')
