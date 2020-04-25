@@ -32,6 +32,13 @@ $ docker run -d -p 5000:80 hello-world-flask
 
 Con eso el contenedor está corriendo y el sitio es accesible desde localhost:5000.
 
+## Para correr los tests unitarios
+
+```bash
+$ pip install -r app/requirements.txt
+$ nose2 -v
+```
+
 # Notas
 
 Tener en consideración que el usuario "virtual" con el que corre el container es `root`, con lo cual si se crearan archivos desde adentro del container (por ejemplo corriendo `flask [algo que cree archivos]` van a quedar creados con usuario y grupo `root`, y hay que cambiarlos manualmente.

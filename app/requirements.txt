@@ -2,3 +2,5 @@ gunicorn
 Flask
 Jinja2
 Werkzeug
+requests==2.23.0
+nose2==0.9.2
