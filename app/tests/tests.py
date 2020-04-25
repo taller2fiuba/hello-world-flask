@@ -5,7 +5,6 @@ import unittest
 import mock
 
 class AppTestCase(unittest.TestCase):
-
     def setUp(self):
         # creates a test client
         self.app = app.test_client()
@@ -14,7 +13,7 @@ class AppTestCase(unittest.TestCase):
 
     @mock.patch('app.requests.get')
     def test_root_text(self, mock_get):
-        mock_get.return_value.json = {'title': "Hello world!"}
+        mock_get.return_value.json = lambda: {'title': "Hello world!"}
         response = self.app.get('/')
         self.assertEqual(response.json, {'title': f'(Hello world!) by Flask'})
 
