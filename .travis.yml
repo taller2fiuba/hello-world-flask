@@ -16,24 +16,33 @@ before_install:
     - wget -qO- https://toolbelt.heroku.com/install.sh | sh
     # login to heroku registries
     - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
-    - git clone https://github.com/FrancoLiberali/behave-test.git
+    - cd ..
+    - git clone https://github.com/taller2fiuba/hello-world-acceptance-tests.git
+    - git clone https://github.com/taller2fiuba/hello-world-node.git
     - sudo pip install --upgrade pip
 install:
     # install deps
-    - pip install -r webapp/requirements.txt
-    - cd behave-test && sudo pip install -r requirements.txt
+    - cd hello-world-acceptance-tests && sudo pip install -r requirements.txt
+    - cd ../hello-world-flask && pip install -r app/requirements.txt
 before_script:
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    chmod +x ../bin/start-test-server
-    ../bin/start-test-server;
-    fi' # levantar la aplicacion
+    ./bin/start-test-server;
+    ../hello-world-node/bin/start-test-server;
+    fi' # levantar las aplicaciones
 script:
-    - echo "todo ok"
+    - nose2 -v
+    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
+    cd ../hello-world-acceptance-tests;
+    behave;
+    fi'
 after_script:
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then docker-compose down; fi'
+    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
+    ../hello-world-flask/bin/stop-server;
+    ../hello-world-node/bin/stop-server;
+    fi'
 after_success:
     - 'if [ "$TRAVIS_BRANCH" = "master" ]; then
-    cd ..;
+    cd ../hello-world-flask;
     docker build -t app .;
     docker tag app registry.heroku.com/$HEROKU_APP_NAME/web;
     fi'

@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose -d $(dirname "$0")/../docker-compose.dev.yml up
+docker-compose -f $(dirname "$0")/../docker-compose.dev.yml up -d --build
