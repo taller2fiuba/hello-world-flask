@@ -30,7 +30,7 @@ before_script:
     # ../hello-world-node/bin/start-test-server;
     # fi' # levantar las aplicaciones
     - ./bin/start-test-server
-    - ../hello-world-node/binstart-test-server
+    - ../hello-world-node/bin/start-test-server
 script:
     - nose2 -v
     # - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
