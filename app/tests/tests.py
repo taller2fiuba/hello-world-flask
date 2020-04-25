@@ -1,4 +1,5 @@
 from app import app
+import json
 
 import unittest
 
@@ -12,7 +13,7 @@ class AppTestCase(unittest.TestCase):
 
     def test_root_text(self):
         response = self.app.get('/')
-        self.assertEqual(response.data, "Hello world!")
+        self.assertEqual(response.json, {'title': "Hello world!"})
 
 if __name__ == '__main__':
     unittest.main()
