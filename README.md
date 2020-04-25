@@ -35,7 +35,7 @@ Con eso el contenedor está corriendo y el sitio es accesible desde localhost:50
 ## Para correr los tests unitarios
 
 ```bash
-$ pip install -r app/requirements.txt
+$ pip3 install -r app/requirements.txt
 $ nose2 -v
 ```
 
