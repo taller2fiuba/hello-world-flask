@@ -35,7 +35,7 @@ before_script:
        fi'
 script:
     # Correr *dentro del servidor de dev* las pruebas unitarias.
-    - './hello-world-flask/bin/exec-dev nose2'
+    - './hello-world-flask/bin/exec-dev nose2 -v'
     # [if master o PR]: Correr las pruebas de aceptación
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
             cd ./hello-world-acceptance-tests;
@@ -53,6 +53,7 @@ after_success:
     # [if master o PR]: Buildear y taggear para deploy a Heroku
     - 'if [ "$TRAVIS_BRANCH" = "master" ]; then
             cd ./hello-world-flask;
+            ./bin/coveralls;
             docker build -t app .;
             docker tag app registry.heroku.com/$HEROKU_APP_NAME/web;
             cd ..;
