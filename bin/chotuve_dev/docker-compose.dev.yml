@@ -1,0 +1,18 @@
+version: '3'
+services:
+    hello_flask:
+        image: python:3.8
+        volumes:
+            - ../..:/var/www/app
+        environment:
+            STATIC_URL: "/static"
+            STATIC_PATH: "/var/www/app/app/static"
+            FLASK_APP: "app"
+            FLASK_ENV: "development"
+            # [Python <3.8] PYTHONDONTWRITEBYTECODE: 1
+            PYTHONPYCACHEPREFIX: "/tmp/app"
+        working_dir: /var/www/app
+        command: bash /var/www/app/bin/chotuve_dev/start.sh
+        ports:
+            - 0.0.0.0:5000:5000
+

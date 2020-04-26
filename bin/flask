@@ -1,2 +1,2 @@
 #!/bin/sh
-docker-compose -f $(dirname "$0")/../docker-compose.dev.yml exec dev flask
+$(dirname "$0")/exec-dev bash -c "cd src && flask $@"
