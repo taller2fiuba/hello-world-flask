@@ -19,10 +19,10 @@ before_install:
     - cd ..
     - git clone https://github.com/taller2fiuba/hello-world-acceptance-tests.git
     - git clone https://github.com/taller2fiuba/hello-world-node.git
-    - sudo pip3 install --upgrade pip
+    - sudo pip install --upgrade pip
 install:
     # Instalar dependencias para behave
-    - sudo pip3 install -r ./hello-world-acceptance-tests/requirements.txt
+    - sudo pip install -r ./hello-world-acceptance-tests/requirements.txt
 before_script:
     # Iniciar el servidor de dev
     - ./hello-world-flask/bin/dev-compose up -d --build
