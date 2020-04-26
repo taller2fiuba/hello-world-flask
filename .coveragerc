@@ -1,6 +1,6 @@
 [run]
 branch = True
-source = ./app
+source = ./src/app
 omit =
-    ./app/wsgi.py
-    ./app/tests/*.py
+    ./src/app/wsgi.py
+    ./src/app/tests/*.py
