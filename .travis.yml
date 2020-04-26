@@ -19,10 +19,10 @@ before_install:
     - cd ..
     - git clone https://github.com/taller2fiuba/hello-world-acceptance-tests.git
     - git clone https://github.com/taller2fiuba/hello-world-node.git
-    - sudo pip install --upgrade pip
+    - sudo pip3 install --upgrade pip
 install:
     # Instalar dependencias para behave
-    - sudo pip install -r ./hello-world-acceptance-tests/requirements.txt
+    - sudo pip3 install -r ./hello-world-acceptance-tests/requirements.txt
 before_script:
     # Iniciar el servidor de dev
     - ./hello-world-flask/bin/dev-compose up -d --build
@@ -33,7 +33,7 @@ before_script:
        fi'
 script:
     # Correr *dentro del servidor de dev* las pruebas unitarias.
-    - './hello-world-flask/bin/exec-dev nose2 -v'
+    - 'bash -c "./hello-world-flask/bin/exec-dev nose2 -v"'
     # [if master o PR]: Correr las pruebas de aceptación
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
             cd ./hello-world-acceptance-tests;
