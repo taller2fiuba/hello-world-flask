@@ -30,7 +30,7 @@ before_script:
     ../hello-world-node/bin/start-test-server;
     fi' # levantar las aplicaciones
 script:
-    - nose2 -v
+    - ./bin/exec-unit-tests.sh
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
     cd ../hello-world-acceptance-tests;
     behave;
@@ -43,6 +43,7 @@ after_script:
 after_success:
     - 'if [ "$TRAVIS_BRANCH" = "master" ]; then
     cd ../hello-world-flask;
+    coveralls;
     docker build -t app .;
     docker tag app registry.heroku.com/$HEROKU_APP_NAME/web;
     fi'

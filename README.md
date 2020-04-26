@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/taller2fiuba/hello-world-flask.svg?branch=master)](https://travis-ci.com/taller2fiuba/hello-world-flask)
+[![Coverage Status](https://coveralls.io/repos/github/taller2fiuba/hello-world-flask/badge.svg?branch=poner_linter_y_coveralls)](https://coveralls.io/github/taller2fiuba/hello-world-flask?branch=master)
 
 # Hello world en Flask
 
@@ -36,7 +37,13 @@ Con eso el contenedor está corriendo y el sitio es accesible desde localhost:50
 
 ```bash
 $ pip3 install -r app/requirements.txt
-$ nose2 -v
+$ ./bin/exec-unit-tests
+```
+
+## Para arreglar los errores de lint automaticamente
+
+```bash
+$ ./bin/fix-lint.sh
 ```
 
 # Notas
