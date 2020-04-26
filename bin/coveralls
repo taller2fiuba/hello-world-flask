@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Atajo para ejecutar un comando dentro del container del server de dev
+# Atajo para ejecutar coveralls dentro del server de dev
 
-exec $(dirname "$0")/dev-compose exec -e TRAVIS_JOB_ID="$TRAVIS_JOB_ID" -e TRAVIS_BRANCH="$TRAVIS_BRANCH" -e COVERALLS_REPO_TOKEN="$COVERALLS_REPO_TOKEN" hello_flask coveralls "$@"
+exec $(dirname "$0")/dev-compose exec hello_flask coveralls "$@"
 

@@ -26,8 +26,8 @@ install:
 before_script:
     # Iniciar el servidor de dev
     - ./hello-world-flask/bin/dev-compose up -d --build
-    # Esperar a que el servidor de dev funcione
-    - 'until curl --connect-timeout 1 localhost:5000; do sleep 1; done;'
+    # Esperar a que el servidor de dev esté online
+    - 'until curl -o /dev/null -s --connect-timeout 1 localhost:5000; do echo "Waiting 1 sec for Flask server to start and retrying"; sleep 1; done;'
     # [if master o PR]: levantar Hello World Node para correr tests de 
     # integracion.
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
