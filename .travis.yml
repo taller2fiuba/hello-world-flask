@@ -41,11 +41,14 @@ after_script:
     ../hello-world-node/bin/stop-server;
     fi'
 after_success:
-    - 'if [ "$TRAVIS_BRANCH" = "master" ]; then
-    cd ../hello-world-flask;
-    docker build -t app .;
-    docker tag app registry.heroku.com/$HEROKU_APP_NAME/web;
-    fi'
+    - cd ../hello-world-flask
+    - coveralls
+    # - 'if [ "$TRAVIS_BRANCH" = "master" ]; then
+    # cd ../hello-world-flask;
+    # coveralls;
+    # docker build -t app .;
+    # docker tag app registry.heroku.com/$HEROKU_APP_NAME/web;
+    # fi'
 deploy:
     provider: script
     script:
