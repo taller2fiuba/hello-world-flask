@@ -36,7 +36,13 @@ Con eso el contenedor está corriendo y el sitio es accesible desde localhost:50
 
 ```bash
 $ pip3 install -r app/requirements.txt
-$ nose2 -v
+$ ./bin/exec-unit-tests
+```
+
+## Para arreglar los errores de lint automaticamente
+
+```bash
+$ ./bin/fix-lint
 ```
 
 # Notas
