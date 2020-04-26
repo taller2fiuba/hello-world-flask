@@ -30,7 +30,7 @@ before_script:
     ../hello-world-node/bin/start-test-server;
     fi' # levantar las aplicaciones
 script:
-    - ./bin/exec-unit-tests
+    - ./bin/exec-unit-tests.sh
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
     cd ../hello-world-acceptance-tests;
     behave;

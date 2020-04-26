@@ -42,7 +42,7 @@ $ ./bin/exec-unit-tests
 ## Para arreglar los errores de lint automaticamente
 
 ```bash
-$ ./bin/fix-lint
+$ ./bin/fix-lint.sh
 ```
 
 # Notas
