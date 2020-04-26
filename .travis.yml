@@ -54,6 +54,7 @@ after_success:
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
            ./hello-world-flask/bin/coveralls;  
        fi'
+    - 'cd hello-world-flask'
 deploy:
     provider: script
     script:
