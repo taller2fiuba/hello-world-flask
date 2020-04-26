@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.com/taller2fiuba/hello-world-flask.svg?branch=master)](https://travis-ci.com/taller2fiuba/hello-world-flask)
+[![Coverage Status](https://coveralls.io/repos/github/taller2fiuba/hello-world-flask/badge.svg?branch=poner_linter_y_coveralls)](https://coveralls.io/github/taller2fiuba/hello-world-flask?branch=master)
 
 # Hello world en Flask
 
