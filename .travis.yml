@@ -25,7 +25,7 @@ install:
     - sudo pip install -r ./hello-world-acceptance-tests/requirements.txt
 before_script:
     # Iniciar el servidor de dev
-    - ./hello-world-flask/bin/dev-compose up
+    - ./hello-world-flask/bin/dev-compose up -d --build
     # [if master o PR]: levantar Hello World Node para correr tests de 
     # integracion.
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
