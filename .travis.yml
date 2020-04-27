@@ -12,6 +12,7 @@ notifications:
             - meiglesias@fi.uba.ar
             - lsportelli@fi.uba.ar
 install:
+    - echo 'Not running pip since this is a Docker build'
 script:
     - '$TRAVIS_BUILD_DIR/bin/travis/run-unit-tests'
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
