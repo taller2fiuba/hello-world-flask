@@ -1,0 +1,48 @@
+#!/bin/bash
+
+# This script will
+# - Start the development server using docker-compose (dev-compose)
+# - Wait for the server to stabilize
+# - Run the unit tests (run-unit-tests)
+# - Stop the development server
+# - Return the exit status of run-unit-tests
+
+# ------------------------------ Config ---------------------------------------
+
+# The dev server will be considered to be up when this URL returns 200 OK.
+DEV_SERVER_URL="http://localhost:5000"
+
+# Timeout for the connection, in seconds
+CONN_TIMEOUT=1
+
+# Time to wait for next retry, in seconds
+RETRY_TIME=1
+
+# Binaries required for the script
+DEVCOMPOSE=$TRAVIS_BUILD_DIR/bin/dev-compose
+RUNUNITTESTS=$TRAVIS_BUILD_DIR/bin/run-unit-tests
+
+# ------------------------------ Setup ---------------------------------------
+# Start the server in the background
+$DEVCOMPOSE up -d --build
+
+# Wait for the server to stabilize
+until curl -o /dev/null -s --connect-timeout $CONN_TIMEOUT $DEV_SERVER_URL; 
+do 
+    echo "Waiting $RETRY_TIME sec(s) for Flask server to start"; 
+    sleep $RETRY_TIME; 
+done;
+
+echo "Development server started on $DEV_SERVER_URL"
+
+# ------------------------------- Run ----------------------------------------
+echo 'Running unit tests'
+$RUNUNITTESTS
+RETVAL=$?
+
+# ---------------------------- Tear down--------------------------------------
+
+echo 'Stopping development server'
+$DEVCOMPOSE down
+
+exit $RETVAL
