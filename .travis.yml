@@ -13,12 +13,15 @@ notifications:
             - lsportelli@fi.uba.ar
 install:
     - echo 'Not running pip since this is a Docker build'
+before_script:
+    - '$TRAVIS_BUILD_DIR/bin/travis/start-test-server'
 script:
     - '$TRAVIS_BUILD_DIR/bin/travis/run-unit-tests'
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-            $TRAVIS_BUILD_DIR/bin/travis/run-coveralls;       
-            $TRAVIS_BUILD_DIR/bin/travis/run-acceptance-tests;
-       fi'
+    - '$TRAVIS_BUILD_DIR/bin/travis/run-acceptance-tests-on-master-or-pr'
+after_success:
+    - '$TRAVIS_BUILD_DIR/bin/travis/run-coveralls-on-master-or-pr'
+after_script:
+    - '$TRAVIS_BUILD_DIR/bin/travis/stop-test-server'
 deploy:
     provider: script
     script:

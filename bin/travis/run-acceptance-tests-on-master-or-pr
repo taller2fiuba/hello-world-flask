@@ -12,6 +12,11 @@
 # - Stop the development server
 # - Return the exit status of behave.
 
+# ---------------------------- Conditions -------------------------------------
+if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_PULL_REQUEST" != "true" ]; then
+    exit 0
+fi
+
 # ------------------------------ Config ---------------------------------------
 # URL of git repository for hello-world-node
 HELLO_WORLD_NODE_REPO="https://github.com/taller2fiuba/hello-world-node.git"
