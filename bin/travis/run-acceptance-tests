@@ -20,7 +20,7 @@ HELLO_WORLD_NODE_REPO="https://github.com/taller2fiuba/hello-world-node.git"
 HELLO_WORLD_ACCEPTANCE_TESTS_REPO="https://github.com/taller2fiuba/hello-world-acceptance-tests.git"
 
 # The node server will be considered to be up when this URL returns 200 OK.
-DEV_SERVER_URL="http://localhost:8080"
+DEV_SERVER_URL="http://localhost:27080"
 
 # Timeout for the connection, in seconds
 CONN_TIMEOUT=1
