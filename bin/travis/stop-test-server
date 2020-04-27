@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# This script will
+# - Stop the development server
+
+DEVCOMPOSE=$TRAVIS_BUILD_DIR/bin/dev-compose
+
+# ---------------------------- Tear down--------------------------------------
+
+echo 'Stopping development server'
+$DEVCOMPOSE down
