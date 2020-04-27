@@ -11,8 +11,7 @@ notifications:
             - ejusto@fi.uba.ar
             - meiglesias@fi.uba.ar
             - lsportelli@fi.uba.ar
-before_script:
-    - 'echo "Build dir is $TRAVIS_BUILD_DIR"'
+install:
 script:
     - '$TRAVIS_BUILD_DIR/bin/travis/run-unit-tests'
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
