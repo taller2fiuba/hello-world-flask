@@ -1,5 +1,0 @@
-#!/bin/bash
-
-# This script is just a wrapper for coveralls.
-
-$TRAVIS_BUILD_DIR/bin/coveralls
