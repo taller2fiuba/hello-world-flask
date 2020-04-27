@@ -11,58 +11,18 @@ notifications:
             - ejusto@fi.uba.ar
             - meiglesias@fi.uba.ar
             - lsportelli@fi.uba.ar
-before_install:
-    # Instalar Heroku CLI
-    - wget -qO- https://toolbelt.heroku.com/install.sh | sh
-    # Iniciar sesión en Heroku
-    - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
-    - cd ..
-    - git clone https://github.com/taller2fiuba/hello-world-acceptance-tests.git
-    - git clone https://github.com/taller2fiuba/hello-world-node.git
-    - sudo pip install --upgrade pip
-install:
-    # Instalar dependencias para behave
-    - sudo pip install -r ./hello-world-acceptance-tests/requirements.txt
 before_script:
-    # Iniciar el servidor de dev
-    - ./hello-world-flask/bin/dev-compose up -d --build
-    # Esperar a que el servidor de dev esté online
-    - 'until curl -o /dev/null -s --connect-timeout 1 localhost:5000; do echo "Waiting 1 sec for Flask server to start and retrying"; sleep 1; done;'
-    # [if master o PR]: levantar Hello World Node para correr tests de 
-    # integracion.
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-           ./hello-world-node/bin/start-test-server;
-       fi'
+    - 'echo "Build dir is $TRAVIS_BUILD_DIR"'
 script:
-    # Correr *dentro del servidor de dev* las pruebas unitarias.
-    - './hello-world-flask/bin/run-unit-tests'
-    # [if master o PR]: Correr las pruebas de aceptación
+    - '$TRAVIS_BUILD_DIR/bin/travis/run-unit-tests'
     - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-            cd ./hello-world-acceptance-tests;
-            behave;
-            cd ..;
+            $TRAVIS_BUILD_DIR/bin/travis/run-coveralls;       
+            $TRAVIS_BUILD_DIR/bin/travis/run-acceptance-tests;
        fi'
-after_script:
-    # Detener el servidor de dev
-    - ./hello-world-flask/bin/dev-compose down
-    # [if master o PR]: Detener el servidor de Hello World Node
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-           ./hello-world-node/bin/stop-server;
-       fi'
-after_success:
-    # [if master o PR]: Correr coveralls
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-           ./hello-world-flask/bin/coveralls;  
-       fi'
-    - 'cd hello-world-flask'
 deploy:
     provider: script
     script:
-        # Deploy a Heroku
-        cd hello-world-flask;
-        docker build -t app .;
-        docker tag app registry.heroku.com/$HEROKU_APP_NAME/web;
-        docker push registry.heroku.com/$HEROKU_APP_NAME/web;
-        heroku container:release web --app $HEROKU_APP_NAME
+        $TRAVIS_BUILD_DIR/bin/travis/deploy-to-heroku
     on:
         branch: master
+    
