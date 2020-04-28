@@ -1,13 +1,13 @@
 import unittest
 import mock
 
-from app import APP
+from app import app
 
 
 class AppTestCase(unittest.TestCase):
     def setUp(self):
         # creates a test client
-        self.app = APP.test_client()
+        self.app = app.test_client()
         # propagate the exceptions to the test client
         self.app.testing = True
 

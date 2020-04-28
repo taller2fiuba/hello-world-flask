@@ -51,14 +51,13 @@ Con eso el contenedor está corriendo y el sitio es accesible desde localhost:50
 ## Para correr los tests unitarios
 
 ```bash
-$ bin/exec-dev nose2 -v
+$ bin/run-unit-tests
 ```
 
 ## Para arreglar los errores de lint automaticamente
 
 ```bash
 $ ./bin/fix-lint.sh
->>>>>>> master
 ```
 
 # Notas
