@@ -1,77 +1,63 @@
 #!/bin/bash
 
-# This script will assume the following pre-conditions are met
-# - The development server for Flask is running at http://localhost:5000/
+# Este script va a asumir que las siguientes condiciones se cumplen
+# - El servidor de desarrollo de Flask está corriendo en http://localhost:5000/
 
-# This script will
-# - Pull hello-world-node and hello-world-acceptance-tests from their repos
-# - Update pip and install dependences for hello-world-acceptance-tests
-# - Start the node development server
-# - Wait for the node server to stabilize
-# - Run the acceptance tests (behave)
-# - Stop the development server
-# - Return the exit status of behave.
+# Este script va a 
+# - Clonar los repositorios hello-world-node y hello-world-acceptance-tests
+# - Actualizar pip e instalar las dependencias para hello-world-acceptance-tests
+# - Iniciar el servidor de desarrollo de Node
+# - Esperar a que el servidor se estabilice
+# - Correr las pruebas de aceptación (behave)
+# - Detener el servidor de desarrollo de Node
+# - Devolver el código de salida de behave.
 
-# ---------------------------- Conditions -------------------------------------
 if [ "$TRAVIS_BRANCH" != "master" ] && [ "$TRAVIS_PULL_REQUEST" != "true" ]; then
     exit 0
 fi
 
-# ------------------------------ Config ---------------------------------------
-# URL of git repository for hello-world-node
 HELLO_WORLD_NODE_REPO="https://github.com/taller2fiuba/hello-world-node.git"
-
-# URL of git repository for hello-world-acceptance-tests
 HELLO_WORLD_ACCEPTANCE_TESTS_REPO="https://github.com/taller2fiuba/hello-world-acceptance-tests.git"
 
-# The node server will be considered to be up when this URL returns 200 OK.
+# Se va a considerar que el servidor de Node está levantado cuando esta URL de 200 OK.
 DEV_SERVER_URL="http://localhost:27080"
 
-# Timeout for the connection, in seconds
-CONN_TIMEOUT=1
-
-# Time to wait for next retry, in seconds
+# Tiempo para esperar al próximo reintento de conexión, en segundos.
 RETRY_TIME=1
 
-# Binaries required for the script
+# Ejecutables requeridos por el script
 GIT=git
 PIP="sudo pip"
 BEHAVE=behave
 
-# ------------------------------ Setup ---------------------------------------
 TMPDIR=$(mktemp -d -t ci-XXXXXXXXXX)
 cd $TMPDIR
 
-# Pull repositories
 $GIT clone "$HELLO_WORLD_NODE_REPO"
 $GIT clone "$HELLO_WORLD_ACCEPTANCE_TESTS_REPO"
 
-# Update pip and install dependencies
 $PIP install --upgrade pip
 $PIP install -r hello-world-acceptance-tests/requirements.txt
 
-# Start node server in the background
 ./hello-world-node/bin/start-test-server
 
-# Wait for the server to stabilize
-until curl -o /dev/null -s --connect-timeout $CONN_TIMEOUT $DEV_SERVER_URL; 
+until curl -o /dev/null -s --connect-timeout 1 $DEV_SERVER_URL; 
 do 
-    echo "Waiting $RETRY_TIME sec(s) for server to start"; 
+    echo "Esperando $RETRY_TIME seg(s) para que el server se inicie"; 
     sleep $RETRY_TIME; 
 done;
 
-echo "Development server started on $DEV_SERVER_URL"
+echo "Servidor de desarrollo iniciado en $DEV_SERVER_URL"
 
-# ------------------------------- Run ----------------------------------------
-echo 'Running acceptance tests'
+echo 'Ejecutando pruebas de aceptación'
 cd hello-world-acceptance-tests
 
 $BEHAVE
 RETVAL=$?
 
 cd ..
-# ---------------------------- Tear down--------------------------------------
-echo 'Stopping development server'
+
+echo 'Deteniendo el servidor de desarrollo'
 ./hello-world-node/bin/stop-server;
 
 exit $RETVAL

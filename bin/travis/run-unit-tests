@@ -1,15 +1,6 @@
 #!/bin/bash
 
-# This script will
-# - Run the unit tests (run-unit-tests)
-# - Return the exit status of run-unit-tests
-
-# Binaries required for the script
 RUNUNITTESTS=$TRAVIS_BUILD_DIR/bin/run-unit-tests
 
-# ------------------------------- Run ----------------------------------------
-echo 'Running unit tests'
-$RUNUNITTESTS
-RETVAL=$?
-
-exit $RETVAL
+echo 'Corriendo pruebas unitarias'
+exec $RUNUNITTESTS
