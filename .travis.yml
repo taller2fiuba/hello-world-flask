@@ -1,6 +1,6 @@
 language: python
 python:
-  - 3.7
+  - 3.8
 services:
     - docker
 notifications:
@@ -11,46 +11,21 @@ notifications:
             - ejusto@fi.uba.ar
             - meiglesias@fi.uba.ar
             - lsportelli@fi.uba.ar
-before_install:
-    # instalar heroku CLI
-    - wget -qO- https://toolbelt.heroku.com/install.sh | sh
-    # login to heroku registries
-    - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
-    - cd ..
-    - git clone https://github.com/taller2fiuba/hello-world-acceptance-tests.git
-    - git clone https://github.com/taller2fiuba/hello-world-node.git
-    - sudo pip install --upgrade pip
 install:
-    # install deps
-    - cd hello-world-acceptance-tests && sudo pip install -r requirements.txt
-    - cd ../hello-world-flask && pip install -r app/requirements.txt
+    - echo 'Not running pip since this is a Docker build'
 before_script:
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    ./bin/start-test-server;
-    ../hello-world-node/bin/start-test-server;
-    fi' # levantar las aplicaciones
+    - '$TRAVIS_BUILD_DIR/bin/travis/start-test-server'
 script:
-    - nose2 -v
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    cd ../hello-world-acceptance-tests;
-    behave;
-    fi'
-after_script:
-    - 'if [ "$TRAVIS_BRANCH" = "master" -o "$TRAVIS_PULL_REQUEST" = "true" ]; then
-    ../hello-world-flask/bin/stop-server;
-    ../hello-world-node/bin/stop-server;
-    fi'
+    - '$TRAVIS_BUILD_DIR/bin/travis/run-unit-tests'
+    - '$TRAVIS_BUILD_DIR/bin/travis/run-acceptance-tests-on-master-or-pr'
 after_success:
-    - 'if [ "$TRAVIS_BRANCH" = "master" ]; then
-    cd ../hello-world-flask;
-    docker build -t app .;
-    docker tag app registry.heroku.com/$HEROKU_APP_NAME/web;
-    fi'
+    - '$TRAVIS_BUILD_DIR/bin/travis/run-coveralls-on-master-or-pr'
+after_script:
+    - '$TRAVIS_BUILD_DIR/bin/travis/stop-test-server'
 deploy:
     provider: script
     script:
-        # push to heroku
-        docker push registry.heroku.com/$HEROKU_APP_NAME/web;
-        heroku container:release web --app $HEROKU_APP_NAME
+        $TRAVIS_BUILD_DIR/bin/travis/deploy-to-heroku
     on:
         branch: master
+    

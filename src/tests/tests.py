@@ -1,8 +1,8 @@
-from app import app
-import json
-
 import unittest
 import mock
+
+from app import app
+
 
 class AppTestCase(unittest.TestCase):
     def setUp(self):
@@ -16,6 +16,7 @@ class AppTestCase(unittest.TestCase):
         mock_get.return_value.json = lambda: {'title': "Hello world!"}
         response = self.app.get('/')
         self.assertEqual(response.json, {'title': f'(Hello world!) by Flask'})
+
 
 if __name__ == '__main__':
     unittest.main()
