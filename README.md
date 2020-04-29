@@ -30,6 +30,18 @@ en segundo plano:
 $ bin/dev-compose down
 ```
 
+## Para correr los tests unitarios (requiere tener el server dev corriendo)
+
+```bash
+$ bin/run-unit-tests
+```
+
+## Para arreglar los errores de lint automaticamente
+
+```bash
+$ bin/fix-lint
+```
+
 ## Para correr un comando de flask
 
 ```bash
@@ -47,18 +59,6 @@ $ docker run -d -p 5000:80 -e PORT=80 hello-world-flask
 ```
 
 Con eso el contenedor está corriendo y el sitio es accesible desde localhost:5000.
-
-## Para correr los tests unitarios
-
-```bash
-$ bin/run-unit-tests
-```
-
-## Para arreglar los errores de lint automaticamente
-
-```bash
-$ ./bin/fix-lint.sh
-```
 
 # Notas
 

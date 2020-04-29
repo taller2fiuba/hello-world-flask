@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# Atajo para ejecutar un comando dentro del container del server de dev
-
-exec $(dirname "$0")/exec-dev "coverage $@"
-
