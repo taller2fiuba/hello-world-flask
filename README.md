@@ -36,12 +36,6 @@ $ bin/dev-compose down
 $ bin/run-unit-tests
 ```
 
-## Para arreglar los errores de lint automaticamente
-
-```bash
-$ bin/fix-lint
-```
-
 ## Para correr un comando de flask
 
 ```bash
