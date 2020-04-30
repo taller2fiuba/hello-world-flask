@@ -1,6 +1,6 @@
 FROM python:3.8
 
-ADD ./requirements.txt /tmp/requirements.txt
+ADD ./requirements/prod.txt /tmp/requirements.txt
 
 # Install dependencies
 RUN pip install --no-cache-dir -q -r /tmp/requirements.txt

@@ -30,6 +30,12 @@ en segundo plano:
 $ bin/dev-compose down
 ```
 
+## Para correr los tests unitarios (requiere tener el server dev corriendo)
+
+```bash
+$ bin/run-unit-tests
+```
+
 ## Para correr un comando de Flask o Python dentro del container.
 
 ```bash
@@ -60,18 +66,6 @@ $ docker-compose build
 $ docker-compose up -d
 ```
 
-## Para correr los tests unitarios
-
-```bash
-$ bin/run-unit-tests
-```
-
-## Para arreglar los errores de lint automaticamente
-
-```bash
-$ ./bin/fix-lint.sh
-```
-
 # Notas
 
 Tener en consideración que el usuario "virtual" con el que corre el container es `root`, con lo cual si se crearan archivos desde adentro del container (por ejemplo corriendo `flask [algo que cree archivos]` van a quedar creados con usuario y grupo `root`, y hay que cambiarlos manualmente.
@@ -97,4 +91,3 @@ Se utiliza el ORM SQLAlchemy y Alembic para las migraciones. Para el proyecto se
 - Para inicializar la carpeta de migraciones: `flask db init`
 - Para verificar el estado de la base de datos: `flask db migrate`. Este comando va a indicar si es necesario actualizarla.
 - Para aplicar las actualizaciones a la base: `flask db upgrade`.
-
