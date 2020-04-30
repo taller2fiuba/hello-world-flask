@@ -36,23 +36,35 @@ $ bin/dev-compose down
 $ bin/run-unit-tests
 ```
 
-## Para correr un comando de flask
+## Para correr un comando de Flask o Python dentro del container.
 
 ```bash
-$ bin/flask
+$ bin/exec-dev bash
+container /var/www/app # cd src
+container /var/www/app/src # flask [args]
 ```
 
-Todos los comandos de flask se corren adentro del container de dev que esté corriendo.
+## Despliegue
 
-## Para deploy a prod
+### Sólo el servidor de Flask
+Hay un `Dockerfile` en la raíz del sitio que se utiliza para hacer el despliegue productivo del servidor de Flask.
 
-Hay un `Dockerfile` que se usa únicamente para deployar a prod.
 ```bash
 $ docker build -t hello-world-flask .
-$ docker run -d -p 5000:80 -e PORT=80 hello-world-flask
+$ docker run -d -p 5000:80 -e PORT=80 -e DATABASE_URL="sqlite:////tmp/db.db" hello-world-flask
 ```
 
+Se debe reemplazar `PORT` por el puerto en el que se desea que el servidor Gunicorn acepte conexiones y `DATABASE_URL` por la URL de la base de datos a utilizar. Se pueden utilizar bases de tipo *sqlite* o *PostgreSQL*. En principio se podría utilizar una base de datos de otro tipo soportado por SQLAlchemy y Arambic, pero es necesario agregar al archivo `requirements.txt` el conector adecuado.
+
 Con eso el contenedor está corriendo y el sitio es accesible desde localhost:5000.
+
+### Para desplegar el servidor de Flask y una base de datos PostgreSQL
+Se provee un archivo `docker-compose.yml` para despliegue a través de Docker Compose. Este archivo levantará el servicio de Flask utilizando el Dockerfile mencionado anteriormente y un contenedor con una base de datos PostgreSQL. Se creará también un volumen para la persistencia de los datos de la base.
+
+```bash
+$ docker-compose build
+$ docker-compose up -d
+```
 
 # Notas
 
@@ -62,13 +74,20 @@ Tener en consideración que el usuario "virtual" con el que corre el container e
 
 ## `bin/dev-compose`
 
-Es un atajo a `docker-compose` para el servidor de dev. Se utiliza igual que `docker-compose`, solo
-que el archivo `.yml` que va a utilizar está fijo.
+Es un atajo a `docker-compose` para el servidor de dev. Se utiliza igual que `docker-compose`, solo que el archivo `.yml` que va a utilizar está fijo.
 
 ## `bin/exec-dev`
 
-Es un atajo para ejecutar un comando dentro del servidor de dev que está corriendo.
+Es un atajo para ejecutar un comando dentro del servidor de dev que está corriendo. Tener en consideración que el comando ejecutado *siempre* se corre en la raíz del **repositorio**. Para correr un comando desde una carpeta distinta se debe correr un `bash` y luego navegar.
 
 Casos comunes:
 - `bin/exec-dev bash`: Para ejecutar un bash dentro del container
 - `bin/exec-dev python`: Para abrir un intérprete de python dentro del container
+
+## Bases de datos
+Se utiliza el ORM SQLAlchemy y Alembic para las migraciones. Para el proyecto se utilizan los *wrappers* `flask-sqlalchemy` y `flask-migrate` que lo que hacen es exportar las funcionalidades de los paquetes a través del CLI de Flask.
+
+### Migraciones
+- Para inicializar la carpeta de migraciones: `flask db init`
+- Para verificar el estado de la base de datos: `flask db migrate`. Este comando va a indicar si es necesario actualizarla.
+- Para aplicar las actualizaciones a la base: `flask db upgrade`.

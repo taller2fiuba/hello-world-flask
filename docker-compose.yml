@@ -1,0 +1,24 @@
+version: '3'
+services:
+    hello_flask:
+        build: .
+        environment:
+            # Flask
+            STATIC_URL: "/static"
+            STATIC_PATH: "/var/www/app/app/static"
+            DATABASE_URL: "postgres://helloflask:helloflask@db/helloflask"
+            PORT: 5000 
+        ports:
+            - 5000:5000
+        links:
+            - db
+    db:
+        image: postgres
+        environment:
+            POSTGRES_DB: helloflask
+            POSTGRES_USER: helloflask
+            POSTGRES_PASSWORD: helloflask
+        volumes:
+            - hello_flask_db:/var/lib/postgresql/data
+volumes:
+    hello_flask_db:

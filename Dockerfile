@@ -6,6 +6,7 @@ ADD ./requirements/prod.txt /tmp/requirements.txt
 RUN pip install --no-cache-dir -q -r /tmp/requirements.txt
 
 # Add our code
+ADD ./entry.sh /entry.sh
 ADD ./src /var/www/app
 WORKDIR /var/www/app
 
@@ -17,4 +18,4 @@ USER chotuve
 
 # Run the app.  CMD is required to run on Heroku
 # $PORT is set by Heroku
-CMD gunicorn --bind 0.0.0.0:$PORT wsgi
+CMD /entry.sh
