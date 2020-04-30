@@ -93,3 +93,8 @@ Casos comunes:
 ## Bases de datos
 Se utiliza el ORM SQLAlchemy y Alembic para las migraciones. Para el proyecto se utilizan los *wrappers* `flask-sqlalchemy` y `flask-migrate` que lo que hacen es exportar las funcionalidades de los paquetes a través del CLI de Flask.
 
+### Migraciones
+- Para inicializar la carpeta de migraciones: `flask db init`
+- Para verificar el estado de la base de datos: `flask db migrate`. Este comando va a indicar si es necesario actualizarla.
+- Para aplicar las actualizaciones a la base: `flask db upgrade`.
+
