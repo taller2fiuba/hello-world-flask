@@ -4,13 +4,16 @@ services:
         image: python:3.8
         volumes:
             - ../..:/var/www/app
+            - hello_flask_cache:/root
         environment:
             # Flask
             STATIC_URL: "/static"
             STATIC_PATH: "/var/www/app/app/static"
             FLASK_APP: "app"
             FLASK_ENV: "development"
-            
+
+            DATABASE_URL: "postgres://helloflask:helloflask@db/helloflask"
+           
             # Avoid Python cache in src directory
             # [Python <3.8] PYTHONDONTWRITEBYTECODE: 1
             PYTHONPYCACHEPREFIX: "/tmp/app"
@@ -33,4 +36,16 @@ services:
         command: bash /var/www/app/bin/chotuve_dev/start.sh
         ports:
             - 0.0.0.0:5000:5000
-
+        links:
+            - db
+    db:
+        image: postgres
+        environment:
+            POSTGRES_DB: helloflask
+            POSTGRES_USER: helloflask
+            POSTGRES_PASSWORD: helloflask
+        volumes:
+            - hello_flask_db_data:/var/lib/postgresql/data
+volumes:
+    hello_flask_db_data:
+    hello_flask_cache:

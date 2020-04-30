@@ -11,3 +11,6 @@ pylint-flask==0.6
 autopep8==1.5.2
 coverage==5.1
 coveralls==2.0.0
+flask-sqlalchemy==2.4.1
+flask-migrate==2.5.3
+psycopg2==2.8.5
