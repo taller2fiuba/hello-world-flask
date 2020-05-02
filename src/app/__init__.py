@@ -8,7 +8,7 @@ from config import Config
 import logging
 import traceback
 
-from .logger import configurarLogging
+from .logger import configurar_logging
 from .version import APP_VERSION
 
 app = Flask(__name__)
@@ -16,7 +16,7 @@ app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 API = Api(app)
-configurarLogging()
+configurar_logging()
 
 logger = logging.getLogger(__name__)
 
