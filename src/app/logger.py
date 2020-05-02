@@ -3,7 +3,7 @@ from logging.config import dictConfig
 def configurarLogging():
     logging_configuracion = dict(
         version=1,
-        disable_existing_loggers=True,
+        disable_existing_loggers=False,
         formatters={
             "default": {"format": "%(levelname)s en %(module)s: %(message)s"},
         },
