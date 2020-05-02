@@ -9,6 +9,7 @@ import logging
 import traceback
 
 from .logger import configurarLogging
+from .version import APP_VERSION
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -47,4 +48,5 @@ API.add_resource(Rompe, '/rompe')
 if __name__ == '__main__':
     app.run(host='0.0.0.0', debug=True)
 
+logger.info(f'Iniciando version de la app: {APP_VERSION}')
 from app import models
