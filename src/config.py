@@ -15,3 +15,4 @@ def blow(envvar):
 class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or blow('DATABASE_URL')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    APP_VERSION = "0.0.1"
