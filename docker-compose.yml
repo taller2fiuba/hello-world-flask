@@ -9,7 +9,7 @@ services:
             DATABASE_URL: "postgres://helloflask:helloflask@db/helloflask"
             PORT: 5000 
         ports:
-            - 5000:5000
+            - ${HELLO_FLASK_PORT:-5000}:5000
         links:
             - db
     db:
